@@ -2,7 +2,6 @@ package ro.pub.cs.paj.discussionforum.db;
 
 import java.io.Serializable;
 
-
 public class Client implements Serializable {
 		
 	public Client(){}	
@@ -16,8 +15,8 @@ public class Client implements Serializable {
 		this.type = type;
 		this.banned = banned;
 	}
-
-
+	
+	
 	public int getId() {
 		return id;
 	}
