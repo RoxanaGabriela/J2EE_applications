@@ -1,13 +1,25 @@
 package ro.pub.cs.paj.discussionforum.db;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="client")
 public class Client implements Serializable {
 		
 	public Client(){}	
 	
-	public Client(int id, String username, String password, userType type,
-			boolean banned) {
+	public Client(int id, String username, String password, String type,
+			int banned) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -15,8 +27,8 @@ public class Client implements Serializable {
 		this.type = type;
 		this.banned = banned;
 	}
-	
-	
+
+
 	public int getId() {
 		return id;
 	}
@@ -35,30 +47,39 @@ public class Client implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public userType getType() {
+	public String getType() {
 		return type;
 	}
-	public void setType(userType type) {
+	public void setType(String type) {
 		this.type = type;
 	}
-	public boolean isBanned() {
+	public int isBanned() {
 		return banned;
 	}
-	public void setBanned(boolean banned) {
+	public void setBanned(int banned) {
 		this.banned = banned;
 	}
 	private static final long serialVersionUID = 1L;
 	
-	public enum userType{
-		client,
-		admin
-	}
-	
+	@Id  
+    @GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
+	
+	@Column(name="username")
 	private String username;
+	
+	@Column(name="password")
 	private String password;
-	private userType type;
-	private boolean banned;
 	
+	@Column(name="type")
+	private String type;
 	
+	@Column(name="banned")
+	private int banned;
+	
+	@OneToMany (mappedBy="client")
+	private Collection<Post> posts = new ArrayList<Post>();
+	
+	@OneToMany (mappedBy="client")
+	private Collection<Comment> comments = new ArrayList<Comment>();
 }

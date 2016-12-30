@@ -13,35 +13,52 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import ro.pub.cs.paj.discussionforum.businesslogic.UserManager;
-import ro.pub.cs.paj.discussionforum.general.Constants;
-import ro.pub.cs.paj.discussionforum.graphicinterface.LoginGraphicInterface;
+import ro.pub.cs.paj.discussionforum.businesslogic.ClientManager;
+import ro.pub.cs.paj.discussionforum.graphicuserinterfaces.LoginGraphicUserInterface;
+import ro.pub.cs.paj.discussionforum.util.Constants;
 
-
-public class LoginServlet extends HttpServlet{
-	public final static long serialVersionUID = 20152015L;
-
-	private UserManager userManager;
-
-	private String username, password;
-
-	@Override
+/**
+ * Servlet implementation class HelloWorld
+ */
+@WebServlet("/LoginServlet")
+public class LoginServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+    
+    private String username;
+    private String password;
+    
+    private ClientManager clientManager;
+    
+    @Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
-		userManager = new UserManager();
+		
+		username = null;
+		password = null;
+		
+		clientManager = new ClientManager();
 	}
-
-	@Override
+    
+    @Override
 	public void destroy() {
 	}
-
-	public boolean isLoginError(String username, String password) {
+    
+    public boolean isLoginError(String username, String password) {
 		return (username != null && !username.isEmpty() && password != null && !password.isEmpty()
-				&& userManager.getType(username, password) == Constants.USER_NONE);
+				&& clientManager.getType(username, password) == Constants.USER_NONE);
 	}
-
-	@Override
-	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+ 
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+     */
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	doPost(request, response);
+    }
+ 
+    /**
+     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+     */
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
 		Enumeration<String> parameters = request.getParameterNames();
 		boolean found = false;
 		while (parameters.hasMoreElements()) {
@@ -55,16 +72,17 @@ public class LoginServlet extends HttpServlet{
 				password = request.getParameter(parameter);
 			}
 		}
+		
 		if (!found) {
 			username = "";
 			password = "";
 		}
 		response.setContentType("text/html");
 		try (PrintWriter printWriter = new PrintWriter(response.getWriter())) {
-			int type = userManager.getType(username, password);
+			int type = clientManager.getType(username, password);
 			if (type != Constants.USER_NONE) {
 				HttpSession session = request.getSession(true);
-				session.setAttribute(Constants.DISPLAY, userManager.getDisplay(username, password));
+				session.setAttribute("display", clientManager.getDisplay(username, password));
 				RequestDispatcher dispatcher = null;
 				switch (type) {
 				case Constants.USER_ADMINISTRATOR:
@@ -74,22 +92,13 @@ public class LoginServlet extends HttpServlet{
 				case Constants.USER_CLIENT:
 					dispatcher = getServletContext().getRequestDispatcher("/" + Constants.CLIENT_SERVLET_PAGE_CONTEXT);
 					break;
-				
-				case Constants.USER_FARACONT:
-					dispatcher = getServletContext().getRequestDispatcher("/" + Constants.USERFARACONT_SERVLET_PAGE_CONTEXT);
-					break;
 				}
 				if (dispatcher != null) {
 					dispatcher.forward(request, response);
 				}
 			}
 
-			LoginGraphicInterface.displayLoginGraphicUserInterface(isLoginError(username, password), printWriter);
+			LoginGraphicUserInterface.displayLoginGraphicUserInterface(isLoginError(username, password), printWriter);
 		}
-	}
-
-	@Override
-	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doPost(request, response);
-	}
+    }
 }
