@@ -39,7 +39,7 @@ public class Post implements Serializable {
 		this.banned = banned;
 		this.topics = new ArrayList<Topic>();
 	}
-
+	
 	private static final long serialVersionUID = 1L;
 
 	public int getId() {

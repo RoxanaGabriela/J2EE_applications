@@ -2,7 +2,10 @@ package ro.pub.cs.paj.discussionforum.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -13,9 +16,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.hibernate.SessionFactory;
+
 import ro.pub.cs.paj.discussionforum.businesslogic.ClientManager;
+import ro.pub.cs.paj.discussionforum.dataaccess.DatabaseException;
+import ro.pub.cs.paj.discussionforum.dataaccess.DatabaseOperationsImplementation;
+import ro.pub.cs.paj.discussionforum.db.Client;
 import ro.pub.cs.paj.discussionforum.graphicuserinterfaces.LoginGraphicUserInterface;
 import ro.pub.cs.paj.discussionforum.util.Constants;
+
+
 
 /**
  * Servlet implementation class HelloWorld
@@ -35,8 +45,9 @@ public class LoginServlet extends HttpServlet {
 		
 		username = null;
 		password = null;
-		
+									
 		clientManager = new ClientManager();
+			
 	}
     
     @Override
@@ -90,7 +101,7 @@ public class LoginServlet extends HttpServlet {
 							.getRequestDispatcher("/" + Constants.ADMINISTRATOR_SERVLET_PAGE_CONTEXT);
 					break;
 				case Constants.USER_CLIENT:
-					dispatcher = getServletContext().getRequestDispatcher("/" + Constants.CLIENT_SERVLET_PAGE_CONTEXT);
+					dispatcher = getServletContext().getRequestDispatcher("/" + Constants.CLIENT_SERVLET_TOPICHOME_PAGE_CONTEXT);
 					break;
 				}
 				if (dispatcher != null) {
