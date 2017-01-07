@@ -72,6 +72,7 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
 		Enumeration<String> parameters = request.getParameterNames();
 		boolean found = false;
+		boolean loggedIn = true;
 		while (parameters.hasMoreElements()) {
 			String parameter = (String) parameters.nextElement();
 			if (parameter.equals(Constants.USERNAME)) {
@@ -82,6 +83,11 @@ public class LoginServlet extends HttpServlet {
 				found = true;
 				password = request.getParameter(parameter);
 			}
+			
+			if (parameter.equals("UserNoAccountButton")) {
+				loggedIn = false;
+			}
+			
 		}
 		
 		if (!found) {
@@ -91,9 +97,15 @@ public class LoginServlet extends HttpServlet {
 		response.setContentType("text/html");
 		try (PrintWriter printWriter = new PrintWriter(response.getWriter())) {
 			int type = clientManager.getType(username, password);
+			if(loggedIn == false)
+				type = Constants.USER_NOACCOUNT;
 			if (type != Constants.USER_NONE) {
 				HttpSession session = request.getSession(true);
 				session.setAttribute("display", clientManager.getDisplay(username, password));
+				session.setAttribute("loggedin", isLoginError(username, password));
+				
+				session.setAttribute("userLogged", username);
+				
 				RequestDispatcher dispatcher = null;
 				switch (type) {
 				case Constants.USER_ADMINISTRATOR:
@@ -101,15 +113,23 @@ public class LoginServlet extends HttpServlet {
 							.getRequestDispatcher("/" + Constants.ADMINISTRATOR_SERVLET_PAGE_CONTEXT);
 					break;
 				case Constants.USER_CLIENT:
-					dispatcher = getServletContext().getRequestDispatcher("/" + Constants.CLIENT_SERVLET_TOPICHOME_PAGE_CONTEXT);
+					dispatcher = getServletContext().getRequestDispatcher("/" + Constants.CLIENT_SERVLET_TOPICHOME_PAGE_CONTEXT);					
 					break;
+				
+				case Constants.USER_NOACCOUNT:
+					dispatcher = getServletContext().getRequestDispatcher("/" + Constants.CLIENT_SERVLET_TOPICHOME_PAGE_CONTEXT);					
+					break;
+					
 				}
 				if (dispatcher != null) {
 					dispatcher.forward(request, response);
 				}
 			}
-
-			LoginGraphicUserInterface.displayLoginGraphicUserInterface(isLoginError(username, password), printWriter);
+			
+			boolean loginError = isLoginError(username, password);
+			
+			LoginGraphicUserInterface.displayLoginGraphicUserInterface(loginError, printWriter);
+			
 		}
     }
 }

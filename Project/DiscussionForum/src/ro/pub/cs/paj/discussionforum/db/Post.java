@@ -34,7 +34,7 @@ public class Post implements Serializable {
 		this.id = id;
 		this.title = title;
 		this.description = description;
-		this.dateTime = dateTime;
+		this.post_Time = dateTime;
 		this.client = client;
 		this.banned = banned;
 		this.topics = new ArrayList<Topic>();
@@ -61,10 +61,10 @@ public class Post implements Serializable {
 		this.description = description;
 	}
 	public Date getDateTime() {
-		return dateTime;
+		return post_Time;
 	}
 	public void setDateTime(Date dateTime) {
-		this.dateTime = dateTime;
+		this.post_Time = dateTime;
 	}
 
 	public Client getClient() {
@@ -98,9 +98,9 @@ public class Post implements Serializable {
 	@Column(name="description")
 	private String description;
 	
-	@Column(name="datetime")
+	@Column(name="post_time")
 	@Temporal(TemporalType.TIMESTAMP) 
-	private Date dateTime;
+	private Date post_Time;
 	
 	@ManyToOne (fetch=FetchType.LAZY)
 	@JoinColumn(name = "client_id")

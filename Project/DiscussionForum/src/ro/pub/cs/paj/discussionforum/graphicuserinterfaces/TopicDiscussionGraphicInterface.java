@@ -13,7 +13,7 @@ public class TopicDiscussionGraphicInterface {
 		
 	}
 	
-	public static void displayLoginGraphicUserInterface(boolean isLogedIn, List<Comment> topics,PrintWriter printWriter) {
+	public static void displayTopicDiscussionGraphicUserInterface(boolean isLogedIn, List<Comment> comments,PrintWriter printWriter) {
 		StringBuilder content = new StringBuilder();
 		content.append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n");		
 		content.append("<html>\n");
@@ -23,7 +23,7 @@ public class TopicDiscussionGraphicInterface {
 		content.append("    </head>\n");
 		content.append("    <body>\n");
 		
-		content.append("        <form action=\"TopicDiscussionServlet\" method=\"post\">\n");
+		content.append("        <form action=\"PostDiscussionServlet\" method=\"post\">\n");
 		
 		content.append("<br>\n");
 		content.append("DiscussionForum\n");
@@ -34,11 +34,12 @@ public class TopicDiscussionGraphicInterface {
 		content.append(" <tbody>\n");
 		content.append(" <tr>\n");
 		
-		for(int i = 0;i < topics.size(); i++){
+		for(int i = 0;i < comments.size(); i++){
 			content.append("<tr>\n");
 			content.append("<th>\n");
 			//content.append(topics.get(i).getTitle() + "\n");
-			content.append("<button type=\"button\" name=\"" +  topics.get(i).getDescription() + "\">" + topics.get(i).getDescription() + "</button>" );
+			
+			content.append(comments.get(i).getDescription());
 								
 			content.append("</th>\n");
 			content.append("</tr>\n");
@@ -53,15 +54,9 @@ public class TopicDiscussionGraphicInterface {
 		
 		if (isLogedIn) {					
 
-			content.append("<table name=\"NewTopicDescription\" style=\"text-align: left; width: 1626px; height:168px;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n");				
-			content.append(" <tbody>\n");
-			content.append(" <tr>\n");
-			content.append(" <td></td>\n");      
-			content.append(" </tr>\n");
-			content.append(" </tbody>\n");
-			content.append(" </table>\n");  		
-			
-			content.append(" <button name=\"NewTopicButton\" type=\"button\">New Topic</button>\n");
+			content.append("<input type=\"text\" name=\"NewTopicComment\" value=\"new topic comment\" style=\" width: 1023px; height: 55px;\"  onclick=this.value=''>");
+			content.append("<br>\n");
+			content.append("<input type=\"submit\" name=\"NewComment\" value=\"New Comment\"/>");
 		}
 	
 				

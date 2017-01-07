@@ -18,7 +18,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="comment")
+@Table(name="post_comment")
 public class Comment implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
@@ -30,9 +30,10 @@ public class Comment implements Serializable{
 	@Column(name="description")
 	private String description;
 	
-	@Column(name="datetime")
+	@Column(name="post_date")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dateTime;
+	
 
 	@ManyToOne (fetch=FetchType.LAZY)
 	@JoinColumn(name = "client_id")

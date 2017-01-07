@@ -10,7 +10,8 @@ public class Constants
 	public final static String DATABASE_NAME = "forumdatabase";
 	
 	
-	public final static int USER_NONE = 0;
+	public final static int USER_NONE = -1;
+	public final static int USER_NOACCOUNT = 0;
 	public final static int USER_ADMINISTRATOR = 1;
 	public final static int USER_CLIENT = 2;
 	

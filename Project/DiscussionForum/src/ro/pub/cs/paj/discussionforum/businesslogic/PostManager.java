@@ -7,7 +7,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Query;
+
+import org.hibernate.Session;
+
 import ro.pub.cs.paj.discussionforum.helper.Record;
+import ro.pub.cs.paj.discussionforum.util.HibernateUtil;
 import ro.pub.cs.paj.discussionforum.businesslogic.EntityManager;
 import ro.pub.cs.paj.discussionforum.dataaccess.DatabaseOperationsImplementation;
 import ro.pub.cs.paj.discussionforum.db.Post;
@@ -75,4 +80,62 @@ public class PostManager extends EntityManager{
 					
 		return res;
 	}
+	
+	public int getCliedId( String  titleP){
+	
+		int idC = -1;
+		
+		Session session = HibernateUtil.openSession();
+		session.beginTransaction();
+						
+			try {	        		
+			
+				Query query = session.createQuery("from " + table + " where title = :title  ");
+				
+		        query.setParameter("title", titleP);
+		        //query.setParameter("password", password);
+		        
+		        
+				//String queryString = "Select * from client where username="+"'"+ username + "'" + " and password='123'";
+				//Query query = session.createQuery(queryString);
+		        List<String> att = new ArrayList<String>();
+		        att.add("id");
+		        att.add("title");
+		        att.add("description");
+		        att.add("post_date");
+		        att.add("post_time");
+		        att.add("cliend_id");
+		        att.add("banned");
+		        
+		        String whereClause = "title='" +titleP + "'";
+		        
+		        List<List < String > > results = new ArrayList<List<String>>();
+		        
+		        results = DatabaseOperationsImplementation.getInstance().getTableContent(table,att,whereClause,null, null, null);
+		        
+		        
+		        int idt = -1;
+		        if (results != null){
+		        	List<String> res = results.get(0);
+		        	idt = Integer.parseInt(res.get(0));
+		        }
+		        		        													           	          
+		        if (idt != -1){	        		        	
+		        	idC = idt;
+		        }		        			     
+		        
+			} catch (Exception exception) {
+					// Ignore: OK for this implementation
+			} finally {
+				session.getTransaction().commit();
+			}
+		
+		
+		return idC;
+		
+		
+		
+	}
+	
+	
 }

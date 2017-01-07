@@ -56,6 +56,8 @@ public class LoginGraphicUserInterface {
 			content.append(
 					"                    <h3 style=\"color: red\">" + Constants.ERROR_USERNAME_PASSWORD + "</h3>\n");
 		}
+		
+		content.append("<input type=\"submit\" name=\"UserNoAccountButton\" value=\"UserNoAccount\"/>");
 		content.append("                </div>\n");
 		content.append("                <div id=\"wrapperbottom\"></div>\n");
 		content.append("            </div>\n");

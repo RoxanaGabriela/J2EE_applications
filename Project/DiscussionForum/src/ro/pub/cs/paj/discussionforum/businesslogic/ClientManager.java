@@ -34,7 +34,7 @@ public class ClientManager {
 	public int getType(String username, String password) {
 		int userType = Constants.USER_NONE;
 		
-		Session session=HibernateUtil.openSession();
+		Session session = HibernateUtil.openSession();
 		session.beginTransaction();
 		try {	        		
 			
@@ -84,6 +84,59 @@ public class ClientManager {
 		return userType;
 	}
 
+	public int getUserId(String username){
+		
+		Session session = HibernateUtil.openSession();
+		session.beginTransaction();
+		
+		int id = -1;
+		
+			try {	        		
+			
+				Query query = session.createQuery("from " + table + " where username = :username and password = :password ");
+				
+		        query.setParameter("username", username);
+		        //query.setParameter("password", password);
+		        
+		        
+				//String queryString = "Select * from client where username="+"'"+ username + "'" + " and password='123'";
+				//Query query = session.createQuery(queryString);
+		        List<String> att = new ArrayList<String>();
+		        att.add("id");
+		        att.add("username");
+		        att.add("password");
+		        att.add("type");
+		        att.add("banned");
+		        
+		        String whereClause = "username='" +username + "'";
+		        
+		        List<List < String > > results = new ArrayList<List<String>>();
+		        
+		        results = DatabaseOperationsImplementation.getInstance().getTableContent(table,att,whereClause,null, null, null);
+		        
+		        
+		        int idt = -1;
+		        if (results != null){
+		        	List<String> res = results.get(0);
+		        	idt = Integer.parseInt(res.get(0));
+		        }
+		        		        													           	          
+		        if (idt != -1){	        		        	
+		        	id = idt;
+		        }		        			     
+		        
+			} catch (Exception exception) {
+					// Ignore: OK for this implementation
+			} finally {
+				session.getTransaction().commit();
+			}
+		
+		
+		return id;
+	}
+	
+	
+	
 	public String getDisplay(String username, String password) {
 		return "";
 	}

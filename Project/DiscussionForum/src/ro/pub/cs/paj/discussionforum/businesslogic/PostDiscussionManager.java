@@ -12,20 +12,23 @@ import ro.pub.cs.paj.discussionforum.db.Topic;
 
 public class PostDiscussionManager extends EntityManager{
 	
+	
+	
+	
 	public PostDiscussionManager(){
-		table = "Comment";
+		table = "post_comment";
 		
 		//TODO get the name of the topic
 	}
 	
-	public  List<Comment>  getElements() throws SQLException{
+	public  List<Comment>  getElements(int postId) throws SQLException{
 			
 		List<Comment> res = new ArrayList();
 				
 		
 		List<String> att = new ArrayList<String>();
 		att.add("id");
-		att.add("title");
+		//att.add("title");
 		att.add("description");
 		att.add("post_date");
 		att.add("post_time");
@@ -34,7 +37,9 @@ public class PostDiscussionManager extends EntityManager{
 		
 		
 		//TODO de vazut aici
-		String where = "client_id=1";
+		String where = null;
+		if(postId != -1)
+			where = "post_id=" + postId;
 		
 		List<List<String> > entries = DatabaseOperationsImplementation.getInstance().getTableContent(table, att, where, null, null, null);
 				
@@ -45,7 +50,7 @@ public class PostDiscussionManager extends EntityManager{
 			Comment entry = new Comment();
 			
 			entry.setId(Integer.parseInt(current.get(0)));
-			entry.setDescription(current.get(2));
+			entry.setDescription(current.get(1));
 			
 			
 			res.add(entry);

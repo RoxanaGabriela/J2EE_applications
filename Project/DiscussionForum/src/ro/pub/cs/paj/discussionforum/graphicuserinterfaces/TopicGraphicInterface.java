@@ -13,7 +13,7 @@ public class TopicGraphicInterface {
 
 	public TopicGraphicInterface() {}
 	
-	public static void displayLoginGraphicUserInterface(boolean isLogedIn, List<Post> topics,PrintWriter printWriter) {
+	public static void displayTopicGraphicUserInterface(boolean isLogedIn, List<Post> topics,PrintWriter printWriter) {
 		StringBuilder content = new StringBuilder();
 		content.append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n");		
 		content.append("<html>\n");
@@ -23,7 +23,7 @@ public class TopicGraphicInterface {
 		content.append("    </head>\n");
 		content.append("    <body>\n");
 		
-		content.append("        <form action=\"TopicServlet\" method=\"post\">\n");
+		content.append("        <form action=\"PostServlet\" method=\"post\">\n");
 		
 		content.append("<br>\n");
 		content.append("DiscussionForum\n");
@@ -38,8 +38,10 @@ public class TopicGraphicInterface {
 			content.append("<tr>\n");
 			content.append("<th>\n");
 			//content.append(topics.get(i).getTitle() + "\n");
-			content.append("<button type=\"button\" name=\"" +  topics.get(i).getTitle() + "\">" + topics.get(i).getTitle() + "</button>" );
+			content.append("<input type=\"submit\"" + " name=" + "\"" + topics.get(i).getTitle() +"\"" + " value=\"" + topics.get(i).getTitle() + "\"/>");
 								
+			//"<input type="submit" name="welcome" value="welcome"/>"
+			
 			content.append("</th>\n");
 			content.append("</tr>\n");
 			
@@ -52,6 +54,18 @@ public class TopicGraphicInterface {
 		content.append("<br>\n");
 		
 		if (isLogedIn) {
+			
+			
+			//<input type="text" name="FirstName" value="new topic name"  onclick=this.value='' ><br>
+			//<input type="text" name="FirstName" value="new topic post" style=" width: 1023px; height: 55px;"  onclick=this.value=''><br>
+			
+			
+			content.append("<input type=\"text\" name=\"NewTopicName\" value=\"new topic name\"  onclick=this.value='' > ");
+			content.append("<br>\n");
+			content.append("<input type=\"text\" name=\"NewTopicPost\" value=\"new topic post\" style=\" width: 1023px; height: 55px;\"  onclick=this.value=''>");
+			content.append("<br>\n");
+			
+			/*
 			content.append("<table name=\"NewTopicName\" style=\"text-align: left; width: 1623px; height: 35px;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n");				
 			content.append(" <tbody>\n");
 			content.append(" <tr>\n");
@@ -67,8 +81,9 @@ public class TopicGraphicInterface {
 			content.append(" </tr>\n");
 			content.append(" </tbody>\n");
 			content.append(" </table>\n");  		
+			*/
 			
-			content.append(" <button name=\"NewTopicButton\" type=\"button\">New Topic</button>\n");
+			content.append("<input type=\"submit\" name=\"NewTopicButton\" value=\"NewTopic\"/>");
 		}
 	
 				
