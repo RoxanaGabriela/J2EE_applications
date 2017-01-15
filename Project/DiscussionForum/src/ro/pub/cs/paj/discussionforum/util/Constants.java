@@ -21,7 +21,8 @@ public class Constants
 	
 	public final static String LOGIN_SERVLET_PAGE_CONTEXT = "LoginServlet";
 	public final static String REGISTER_SERVLET_PAGE_CONTEXT = "RegisterServlet";
-	public final static String ADMINISTRATOR_SERVLET_PAGE_CONTEXT = "AdministratorServlet";
+	public final static String ADMINISTRATOR_POST_SERVLET_PAGE_CONTEXT = "AdministratorPostServlet";
+	public final static String ADMINISTRATOR_POSTDISCUSSION_SERVLET_PAGE_CONTEXT = "AdministratorPostDiscussionServlet";
 	public final static String POST_SERVLET_PAGE_CONTEXT = "PostServlet";
 	public final static String POSTDISCUSSION_SERVLET_PAGE_CONTEXT = "PostDiscussionServlet";
 	public final static String POST_LOGGEDIN_SERVLET_PAGE_CONTEXT = "PostLoggedInServlet";
@@ -33,7 +34,8 @@ public class Constants
 	
 	public final static String POST_FORM = "PostForm";
 	public final static String POSTDISCUSSION_FORM = "PostDiscussionForm";
-	public final static String ADMINISTRATOR_FORM = "AdministratorForm";
+	public final static String ADMINISTRATOR_POST_FORM = "AdministratorPostForm";
+	public final static String ADMINISTRATOR_POSTDISCUSSION_FORM = "AdministratorPostDiscussionForm";
 	
 	public final static String HOME = "Home";
 	

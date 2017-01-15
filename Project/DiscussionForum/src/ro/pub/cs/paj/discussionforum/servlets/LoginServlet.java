@@ -89,7 +89,7 @@ public class LoginServlet extends HttpServlet {
 						RequestDispatcher dispatcher = null;
 						switch (type) {
 						case Constants.USER_ADMINISTRATOR:
-							dispatcher = getServletContext().getRequestDispatcher("/" + Constants.ADMINISTRATOR_SERVLET_PAGE_CONTEXT);
+							dispatcher = getServletContext().getRequestDispatcher("/" + Constants.ADMINISTRATOR_POST_SERVLET_PAGE_CONTEXT);
 							break;
 						case Constants.USER_CLIENT:
 							dispatcher = getServletContext().getRequestDispatcher("/" + Constants.POST_SERVLET_PAGE_CONTEXT);
