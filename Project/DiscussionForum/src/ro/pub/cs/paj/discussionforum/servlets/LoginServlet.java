@@ -17,11 +17,6 @@ import ro.pub.cs.paj.discussionforum.businesslogic.ClientManager;
 import ro.pub.cs.paj.discussionforum.graphicuserinterfaces.LoginGraphicUserInterface;
 import ro.pub.cs.paj.discussionforum.util.Constants;
 
-
-
-/**
- * Servlet implementation class HelloWorld
- */
 @WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;

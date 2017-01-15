@@ -8,8 +8,7 @@ import ro.pub.cs.paj.discussionforum.dataaccess.DatabaseOperations;
 import ro.pub.cs.paj.discussionforum.dataaccess.DatabaseOperationsImplementation;
 import ro.pub.cs.paj.discussionforum.util.Constants;
 
-public class ClientManager {
-	
+public class ClientManager extends EntityManager {
 	private String table;
 	
 	public ClientManager() {
@@ -28,7 +27,6 @@ public class ClientManager {
 	        att.add("username");
 	        att.add("password");
 	        att.add("type");
-	        att.add("banned");
 	        
 	        String whereClause = "username='" +username + "' and password='" + password + "'";
 	        
@@ -68,7 +66,6 @@ public class ClientManager {
 			att.add("username");
 			att.add("password");
 			att.add("type");
-			att.add("banned");
 
 			String whereClause = "username='" +username + "'";
 
@@ -83,7 +80,7 @@ public class ClientManager {
 				idt = Integer.parseInt(res.get(0));
 			}
 
-			if (idt != -1){	        		        	
+			if (idt != -1) {	        		        	
 				id = idt;
 			}		        			     
 

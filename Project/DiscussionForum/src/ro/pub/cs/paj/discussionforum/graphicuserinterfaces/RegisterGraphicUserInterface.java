@@ -8,7 +8,7 @@ public class RegisterGraphicUserInterface {
 	public RegisterGraphicUserInterface() {
 	}
 
-	public static void displayLoginGraphicUserInterface(boolean isRegisterError, PrintWriter printWriter) {
+	public static void displayRegisterGraphicUserInterface(boolean isRegisterError, PrintWriter printWriter) {
 		StringBuilder content = new StringBuilder();
 		content.append(
 				"<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n");
@@ -48,15 +48,13 @@ public class RegisterGraphicUserInterface {
 		content.append("                    </div>\n");
 		content.append("                    <div id=\"submit\">\n");
 		content.append(
-				"                        <input type=\"image\" src=\"./images/user_interface/signin.png\" id=\"submit2\" name=\""
-						+ Constants.SIGNIN.toLowerCase() + "\" value=\"" + Constants.SIGNIN + "\">\n");
+				"                        <input type=\"image\" src=\"./images/user_interface/signup.png\" id=\"submit2\" name=\""
+						+ Constants.SIGNUP.toLowerCase() + "\" value=\"" + Constants.SIGNUP + "\">\n");
 		content.append("                    </div>\n");
 		if (isRegisterError) {
 			content.append(
-					"                    <h3 style=\"color: red\">" + Constants.ERROR_USERNAME_PASSWORD + "</h3>\n");
+					"                    <h3 style=\"color: red\">" + Constants.ERROR_REGISTER + "</h3>\n");
 		}
-		
-		content.append("<input type=\"submit\" name=\"UserNoAccountButton\" value=\"UserNoAccount\"/>");
 		content.append("                </div>\n");
 		content.append("                <div id=\"wrapperbottom\"></div>\n");
 		content.append("            </div>\n");

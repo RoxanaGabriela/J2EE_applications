@@ -29,7 +29,7 @@ public class PostDiscussionManager extends EntityManager{
 			att.add("post_time");
 			att.add("username");	
 
-			String where = "post_id=\'" + postId + "\' and client_id=client.id and post_comment.banned=0";
+			String where = "post_id=\'" + postId + "\' and client_id=client.id and post_comment.banned=1";
 			List<List<String> > entries = databaseOperations.getTableContent(table + ", client", att, where, null, null, null);
 
 			for(int i = 0;i < entries.size(); i++) {

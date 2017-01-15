@@ -54,8 +54,6 @@ public class PostDiscussionServlet extends HttpServlet {
 		comments = null;
 		postId = null;
 		post = new Post();
-		loggedIn = false;
-		username = null;
 	}
 
 	@Override
@@ -71,7 +69,11 @@ public class PostDiscussionServlet extends HttpServlet {
 		response.setContentType("text/html");
 
 		try (PrintWriter printWriter = new PrintWriter(response.getWriter())) {
+			boolean listChanged = false;
 			String newComment = null;
+			
+			loggedIn = false;
+			username = null;
 
 			if (session.getAttribute("username") != null) {
 				username = (String) session.getAttribute("username");
@@ -122,6 +124,7 @@ public class PostDiscussionServlet extends HttpServlet {
 						val.add("0");
 
 						postDiscussionManager.create(val);
+						listChanged = true;
 					}
 				}
 				
@@ -175,13 +178,19 @@ public class PostDiscussionServlet extends HttpServlet {
 						currentRecordsPerPage = String.valueOf(Constants.RECORDS_PER_PAGE_VALUES[0]);
 						currentPage = String.valueOf(1);
 						loggedIn = false;
+						RequestDispatcher dispatcher = null;
+						dispatcher = getServletContext()
+								.getRequestDispatcher("/" + Constants.POST_SERVLET_PAGE_CONTEXT);
+						if (dispatcher != null) {
+							dispatcher.forward(request, response);
+						}
 						session.invalidate();
 						break;
 					}
 				}
 			}
 
-			if (comments == null)
+			if (comments == null || listChanged)
 				comments = postDiscussionManager.getElements(Integer.parseInt(postId));
 			PostDiscussionGraphicUserInterface.displayPostDiscussionGraphicUserInterface(username, loggedIn,
 					post, comments,

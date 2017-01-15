@@ -149,7 +149,7 @@ public class PostDiscussionGraphicUserInterface {
 			content.append("												</tr>\n");		
 			content.append("												<tr>\n");
 			content.append("													<td>\n");
-			content.append("														<input type=\"image\" name=\"" + Constants.INSERT_BUTTON_NAME.toLowerCase() + "\" value=\"" + Constants.INSERT_BUTTON_NAME + "\" src=\"./images/user_interface/insert.png\"/>\n");
+			content.append("														<input type=\"image\" height=32 width=32 name=\"" + Constants.INSERT_BUTTON_NAME.toLowerCase() + "\" value=\"" + Constants.INSERT_BUTTON_NAME + "\" src=\"./images/user_interface/right-arrow-icon.png\"/>\n");
 			content.append("													</td>\n");
 			content.append("												</tr>\n");
 			content.append("											</tbody>\n");

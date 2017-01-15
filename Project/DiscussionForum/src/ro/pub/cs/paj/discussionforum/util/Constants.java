@@ -6,7 +6,7 @@ public class Constants
 	
 	public final static String DATABASE_CONNECTION = "jdbc:mysql://localhost:3306/forumdatabase?verifyServerCertificate=false&useSSL=true";
 	public final static String DATABASE_USERNAME = "root";
-	public final static String DATABASE_PASSWORD = "root123";
+	public final static String DATABASE_PASSWORD = "waiting.for.you";
 	public final static String DATABASE_NAME = "forumdatabase";
 	
 	
@@ -33,6 +33,7 @@ public class Constants
 	
 	public final static String POST_FORM = "PostForm";
 	public final static String POSTDISCUSSION_FORM = "PostDiscussionForm";
+	public final static String ADMINISTRATOR_FORM = "AdministratorForm";
 	
 	public final static String HOME = "Home";
 	
@@ -41,9 +42,12 @@ public class Constants
 	public final static String SIGNOUT = "Sign out";
 	public final static String INSERT_BUTTON_NAME = "Insert";
 	public final static String VIEW_BUTTON_NAME = "View";
+	public final static String ACCEPT_BUTTON_NAME = "Accept";
+	public final static String DELETE_BUTTON_NAME = "Delete";
 	public final static String WELCOME_MESSAGE = "Welcome, ";
 	public final static String DISPLAY = "display";
 	public final static String ERROR_USERNAME_PASSWORD = "Either username or password are incorrect!";
+	public final static String ERROR_REGISTER = "User already exists!";
 	
 	public final static String USERNAME = "username";
 	public final static String PASSWORD = "password";

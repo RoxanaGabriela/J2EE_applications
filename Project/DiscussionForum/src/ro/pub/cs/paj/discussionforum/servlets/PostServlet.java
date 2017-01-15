@@ -48,8 +48,6 @@ public class PostServlet extends HttpServlet {
 		currentPage = String.valueOf(1);
 
 		posts = null;
-		loggedIn = false;
-		username = null;
 	}
 
 	@Override
@@ -65,6 +63,10 @@ public class PostServlet extends HttpServlet {
 		response.setContentType("text/html");
 
 		try (PrintWriter printWriter = new PrintWriter(response.getWriter())) {
+			boolean listChanged = false;
+			loggedIn = false;
+			username = null;
+			
 			String newPostTitle = null;
 			String newPostDescription = null;
 			
@@ -74,7 +76,7 @@ public class PostServlet extends HttpServlet {
 			if (session.getAttribute("loggedIn") != null) {
 				loggedIn = (boolean) session.getAttribute("loggedIn");
 			}
-			
+
 			Enumeration<String> parametersTopic = request.getParameterNames();
 			while (parametersTopic.hasMoreElements()) {
 				String parameter = (String) parametersTopic.nextElement();
@@ -119,6 +121,7 @@ public class PostServlet extends HttpServlet {
 						}
 						break;
 					}
+					
 					if (parameter.equals(Constants.SIGNUP.toLowerCase() + ".x")) {
 						Enumeration<String> requestParameters = request.getParameterNames();
 						while (requestParameters.hasMoreElements()) {
@@ -160,6 +163,7 @@ public class PostServlet extends HttpServlet {
 							val.add("0");
 
 							postManager.create(val);
+							listChanged = true;
 						}
 					}
 					
@@ -178,7 +182,7 @@ public class PostServlet extends HttpServlet {
 				}
 			}
 		
-			if (posts == null)
+			if (posts == null || listChanged)
 				posts = postManager.getElements();
 
 			PostGraphicUserInterface.displayPostGraphicUserInterface(username, posts, loggedIn,
