@@ -2,9 +2,7 @@ package ro.pub.cs.paj.discussionforum.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -83,11 +81,7 @@ public class RegisterServlet extends HttpServlet {
 				if (parameter.startsWith(Constants.SIGNUP.toLowerCase()) &&
 						parameter.endsWith(".x")) {
 					if (isRegisterError(username, password)) {
-						List<String> val = new ArrayList<String>();
-						val.add(username);
-						val.add(password);
-						val.add("client");
-						clientManager.create(val);
+						clientManager.create(username, password);
 
 						session.setAttribute("username", username);
 						session.setAttribute("loggedIn", true);

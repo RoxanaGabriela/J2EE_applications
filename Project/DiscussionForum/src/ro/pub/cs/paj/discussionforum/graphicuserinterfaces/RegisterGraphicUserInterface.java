@@ -21,7 +21,7 @@ public class RegisterGraphicUserInterface {
 		content.append("    </head>\n");
 		content.append("    <body style=\"text-align: center\">\n");
 		content.append("        <h2>" + Constants.APPLICATION_NAME.toUpperCase() + "</h2>\n");
-		content.append("        <form action=\"LoginServlet\" method=\"post\">\n");
+		content.append("        <form action=\"" + Constants.REGISTER_SERVLET_PAGE_CONTEXT + "\" method=\"post\">\n");
 		content.append("            <div id=\"wrapperabsolute\">\n");
 		content.append("                <div id=\"wrappertop\"></div>\n");
 		content.append("                <div id=\"wrappermiddle\">\n");

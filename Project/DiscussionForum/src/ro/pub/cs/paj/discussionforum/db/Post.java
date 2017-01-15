@@ -1,23 +1,20 @@
 package ro.pub.cs.paj.discussionforum.db;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
 
 public class Post implements Serializable {
 
 	public Post(){}
 	
-	public Post(int id, String title, String description, Date dateTime, String clientUsername, int banned) {
+	public Post(int id, String title, String description, String date, String time, String clientUsername, int banned) {
 		super();
 		this.id = id;
 		this.title = title;
 		this.description = description;
-		this.post_Time = dateTime;
+		this.date = date;
+		this.time = time;
 		this.clientUsername = clientUsername;
 		this.banned = banned;
-		this.topics = new ArrayList<Topic>();
 	}
 	
 	private static final long serialVersionUID = 1L;
@@ -40,13 +37,18 @@ public class Post implements Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Date getDateTime() {
-		return post_Time;
+	public String getDate() {
+		return date;
 	}
-	public void setDateTime(Date dateTime) {
-		this.post_Time = dateTime;
+	public void setDate(String date) {
+		this.date = date;
 	}
-
+	public String getTime() {
+		return time;
+	}
+	public void setTime(String time) {
+		this.time = time;
+	}
 	public String getClientUsername() {
 		return clientUsername;
 	}
@@ -60,20 +62,20 @@ public class Post implements Serializable {
 		this.banned = banned;
 	}
 	
-	public Collection<Topic> getTopics() {
+	public String getTopics() {
 		return topics;
 	}
 	
-	public void setTopics(Collection<Topic> topics) {
+	public void setTopics(String topics) {
 		this.topics = topics;
 	}
 	
 	private int id;
 	private String title;
 	private String description;	 
-	private Date post_Time;
+	private String date;
+	private String time;
 	private String clientUsername;
 	private int banned;
-	private Collection<Topic> topics;
-	private Collection<Comment> comments = new ArrayList<Comment>();
+	private String topics;
 }

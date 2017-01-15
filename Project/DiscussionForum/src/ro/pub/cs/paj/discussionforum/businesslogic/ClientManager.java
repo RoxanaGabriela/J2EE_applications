@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import ro.pub.cs.paj.discussionforum.dataaccess.DatabaseException;
 import ro.pub.cs.paj.discussionforum.dataaccess.DatabaseOperations;
 import ro.pub.cs.paj.discussionforum.dataaccess.DatabaseOperationsImplementation;
 import ro.pub.cs.paj.discussionforum.util.Constants;
@@ -95,5 +96,33 @@ public class ClientManager extends EntityManager {
 		}
 
 		return id;
+	}
+	
+	public long create(String username, String password) {
+		DatabaseOperations databaseOperations = null;
+		try {
+			databaseOperations = DatabaseOperationsImplementation.getInstance();
+			List<String> values = new ArrayList<String>();
+			values.add(username);
+			values.add(password);
+			
+			List<String> attributes = new ArrayList<String>();
+			attributes.add("username");
+			attributes.add("password");
+			
+			long result = databaseOperations.insertValuesIntoTable(table, attributes, values, true);
+			if (result == -1) {
+				if (Constants.DEBUG) {
+					System.out.println("Insert operation failed!");
+				}
+			}
+			return result;
+		} catch (DatabaseException | SQLException exception) {
+			System.out.println("An exception has occurred: " + exception.getMessage());
+			if (Constants.DEBUG) {
+				exception.printStackTrace();
+			}
+		}
+		return -1;
 	}
 }

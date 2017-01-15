@@ -38,8 +38,10 @@ public class PostDiscussionManager extends EntityManager{
 
 				entry.setId(Integer.parseInt(current.get(0)));
 				entry.setDescription(current.get(1));
+				entry.setDate(current.get(2));
+				entry.setTime(current.get(3));
 				entry.setClientUsername(current.get(4));
-
+				
 				res.add(entry);
 			}
 		} catch (SQLException sqlException) {
@@ -78,6 +80,8 @@ public class PostDiscussionManager extends EntityManager{
 
 				entry.setId(Integer.parseInt(current.get(0)));
 				entry.setDescription(current.get(1));
+				entry.setDate(current.get(2));
+				entry.setTime(current.get(3));
 				entry.setClientUsername(current.get(4));
 
 				res.add(entry);

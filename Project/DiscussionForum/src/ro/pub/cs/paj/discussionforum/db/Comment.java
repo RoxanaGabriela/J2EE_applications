@@ -1,7 +1,6 @@
 package ro.pub.cs.paj.discussionforum.db;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class Comment implements Serializable {
 	
@@ -9,18 +8,20 @@ public class Comment implements Serializable {
 
 	private int id;
 	private String description;
-	private Date dateTime;
+	private String date;
+	private String time;
 	private String clientUsername;
 	private int postId;
 	public int banned;
 	
 	public Comment() {}
 
-	public Comment(int id, String description, Date dateTime, String clientUsername, int postId, int banned) {
+	public Comment(int id, String description, String date, String time, String clientUsername, int postId, int banned) {
 		super();
 		this.id = id;
 		this.description = description;
-		this.dateTime = dateTime;
+		this.date = date;
+		this.time = time;
 		this.clientUsername = clientUsername;
 		this.postId = postId;
 		this.banned = banned;
@@ -42,12 +43,17 @@ public class Comment implements Serializable {
 		this.description = description;
 	}
 
-	public Date getDateTime() {
-		return dateTime;
+	public String getDate() {
+		return date;
 	}
-
-	public void setDateTime(Date dateTime) {
-		this.dateTime = dateTime;
+	public void setDate(String date) {
+		this.date = date;
+	}
+	public String getTime() {
+		return time;
+	}
+	public void setTime(String time) {
+		this.time = time;
 	}
 
 	public String getClientUsername() {

@@ -1,10 +1,7 @@
 package ro.pub.cs.paj.discussionforum.businesslogic;
 
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import ro.pub.cs.paj.discussionforum.businesslogic.EntityManager;
@@ -28,32 +25,28 @@ public class PostManager extends EntityManager {
 
 			List<String> att = new ArrayList<String>();
 			att.add("post.id");
-			att.add("title");
-			att.add("description");
+			att.add("post.title");
+			att.add("post.description");
 			att.add("post_date");
 			att.add("post_time");
-			att.add("username");						
+			att.add("username");
+			att.add("GROUP_CONCAT(\" \", topic.title)");
 
-			String whereClause = "client_id=client.id and post.banned=1";
-			List<List<String> > entries = databaseOperations.getTableContent(table + ", client", att, whereClause, null, null, null);		
+			String whereClause = "client_id=client.id and post.id=post_id and topic.id=topic_id and post.banned=1";
+			String groupByClause = "post.id";
+			List<List<String> > entries = databaseOperations.getTableContent(table + ", topic, topic_post, client", att, whereClause, null, null, groupByClause);		
 
 			for(int i = 0;i < entries.size(); i++) {
 				List<String> current = entries.get(i);
-				SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
-				Date parsed;
-				try {
-					parsed = format.parse(current.get(3));
-					java.sql.Date date = new java.sql.Date(parsed.getTime());
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
 				Post entry = new Post();
 				entry.setId(Integer.parseInt(current.get(0)));
 				entry.setTitle(current.get(1));
 				entry.setDescription(current.get(2));
+				entry.setDate(current.get(3));
+				entry.setTime(current.get(4));
 				entry.setClientUsername(current.get(5));
+				entry.setTopics(current.get(6));
+				
 				res.add(entry);			
 			}
 		} catch (SQLException sqlException) {
@@ -69,6 +62,7 @@ public class PostManager extends EntityManager {
 	}
 	
 	// new posts that need approval
+	// posts that have new comments that need approval
 	public  List<Post>  getAdminPosts() {
 		List<Post> res = new ArrayList<Post>();
 		DatabaseOperations databaseOperations = null;
@@ -92,20 +86,13 @@ public class PostManager extends EntityManager {
 
 			for(int i = 0;i < entries.size(); i++) {
 				List<String> current = entries.get(i);
-				SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
-				Date parsed;
-				try {
-					parsed = format.parse(current.get(3));
-					java.sql.Date date = new java.sql.Date(parsed.getTime());
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 
 				Post entry = new Post();
 				entry.setId(Integer.parseInt(current.get(0)));
 				entry.setTitle(current.get(1));
 				entry.setDescription(current.get(2));
+				entry.setDate(current.get(3));
+				entry.setTime(current.get(4));
 				entry.setClientUsername(current.get(5));
 				entry.setBanned(Integer.parseInt(current.get(6)));
 				res.add(entry);			
@@ -122,9 +109,6 @@ public class PostManager extends EntityManager {
 		return res;
 	}
 	
-	
-	// posts that have new comments that need approval
-	
 	public Post getPostDetails(String postId) {
 		Post post = new Post();
 		DatabaseOperations databaseOperations = null;
@@ -133,19 +117,26 @@ public class PostManager extends EntityManager {
 			databaseOperations = DatabaseOperationsImplementation.getInstance();
 
 			List<String> att = new ArrayList<String>();
-			att.add("title");
-			att.add("description");
+			att.add("post.id");
+			att.add("post.title");
+			att.add("post.description");
 			att.add("post_date");
 			att.add("post_time");
-			att.add("username");						
+			att.add("username");
+			att.add("GROUP_CONCAT(\" \", topic.title)");
 
-			String whereClause = "post.id=\'" + postId + "\' and client_id=client.id";
-			List<List<String> > entries = databaseOperations.getTableContent(table + ", client", att, whereClause, null, null, null);		
-
+			String whereClause = "post.id=\'" + postId + "\' and client_id=client.id and post.id=post_id and topic.id=topic_id and post.banned=1";
+			String groupByClause = "post.id";
+			List<List<String> > entries = databaseOperations.getTableContent(table + ", topic, topic_post, client", att, whereClause, null, null, groupByClause);		
+			
 			if (entries != null && !entries.isEmpty()) {
-				post.setTitle(entries.get(0).get(0));
-				post.setDescription(entries.get(0).get(1));
-				post.setClientUsername(entries.get(0).get(4));
+				post.setId(Integer.parseInt(entries.get(0).get(0)));
+				post.setTitle(entries.get(0).get(1));
+				post.setDescription(entries.get(0).get(2));
+				post.setDate(entries.get(0).get(3));
+				post.setTime(entries.get(0).get(4));
+				post.setClientUsername(entries.get(0).get(5));
+				post.setTopics(entries.get(0).get(6));
 			}
 		} catch (SQLException sqlException) {
 			System.out.println("An exception has occurred while handling database records: " + sqlException.getMessage());
