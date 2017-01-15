@@ -1,15 +1,8 @@
 package ro.pub.cs.paj.discussionforum.db;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -61,25 +54,9 @@ public class Client implements Serializable {
 	}
 	private static final long serialVersionUID = 1L;
 	
-	@Id  
-    @GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
-	
-	@Column(name="username")
 	private String username;
-	
-	@Column(name="password")
 	private String password;
-	
-	@Column(name="type")
 	private String type;
-	
-	@Column(name="banned")
 	private int banned;
-	
-	@OneToMany (mappedBy="client")
-	private Collection<Post> posts = new ArrayList<Post>();
-	
-	@OneToMany (mappedBy="client")
-	private Collection<Comment> comments = new ArrayList<Comment>();
 }

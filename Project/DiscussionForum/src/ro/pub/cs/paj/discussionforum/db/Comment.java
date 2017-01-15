@@ -3,59 +3,26 @@ package ro.pub.cs.paj.discussionforum.db;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
-@Entity
-@Table(name="post_comment")
-public class Comment implements Serializable{
+public class Comment implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
-	@Id  
-    @GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
-	
-	@Column(name="description")
 	private String description;
-	
-	@Column(name="post_date")
-	@Temporal(TemporalType.TIMESTAMP)
 	private Date dateTime;
-	
-
-	@ManyToOne (fetch=FetchType.LAZY)
-	@JoinColumn(name = "client_id")
-	private Client client;
-	
-	@ManyToOne (fetch=FetchType.LAZY)
-	@JoinColumn(name = "post_id")
-	private Post post;
-	
-	@Column(name="banned")
+	private String clientUsername;
+	private int postId;
 	public int banned;
 	
 	public Comment() {}
 
-	public Comment(int id, String description, Date dateTime,
-			Client client, Post post, int banned) {
+	public Comment(int id, String description, Date dateTime, String clientUsername, int postId, int banned) {
 		super();
 		this.id = id;
 		this.description = description;
 		this.dateTime = dateTime;
-		this.client = client;
-		this.post = post;
+		this.clientUsername = clientUsername;
+		this.postId = postId;
 		this.banned = banned;
 	}
 
@@ -83,20 +50,20 @@ public class Comment implements Serializable{
 		this.dateTime = dateTime;
 	}
 
-	public Client getClient() {
-		return client;
+	public String getClientUsername() {
+		return clientUsername;
 	}
 
-	public void setClient(Client client) {
-		this.client = client;
+	public void setClientUsername(String clientUsername) {
+		this.clientUsername = clientUsername;
 	}
 
-	public Post getPost() {
-		return post;
+	public int getPostId() {
+		return postId;
 	}
 
-	public void setPost(Post post) {
-		this.post = post;
+	public void setPostId(int postId) {
+		this.postId = postId;
 	}
 
 	public int isBanned() {
@@ -106,8 +73,4 @@ public class Comment implements Serializable{
 	public void setBanned(int banned) {
 		this.banned = banned;
 	}
-	
-	
-	
-	
 }

@@ -1,5 +1,0 @@
-.classpath
-.settings/org.eclipse.wst.common.project.facet.core.xml
-build/classes/ro/pub/cs/paj/discussionforum/util/HibernateUtil.class
-hibernate.cfg.xml
-src/ro/pub/cs/paj/discussionforum/util/HibernateUtil.java

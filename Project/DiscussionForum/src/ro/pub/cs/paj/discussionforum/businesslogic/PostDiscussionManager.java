@@ -4,61 +4,53 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import ro.pub.cs.paj.discussionforum.dataaccess.DatabaseOperations;
 import ro.pub.cs.paj.discussionforum.dataaccess.DatabaseOperationsImplementation;
 import ro.pub.cs.paj.discussionforum.db.Comment;
-import ro.pub.cs.paj.discussionforum.db.Post;
-import ro.pub.cs.paj.discussionforum.db.Topic;
-
+import ro.pub.cs.paj.discussionforum.util.Constants;
 
 public class PostDiscussionManager extends EntityManager{
-	
-	
-	
-	
 	public PostDiscussionManager(){
 		table = "post_comment";
-		
-		//TODO get the name of the topic
 	}
-	
-	public  List<Comment>  getElements(int postId) throws SQLException{
-			
-		List<Comment> res = new ArrayList();
-				
+
+	public  List<Comment>  getElements(int postId) {
+		List<Comment> res = new ArrayList<Comment>();
 		
-		List<String> att = new ArrayList<String>();
-		att.add("id");
-		//att.add("title");
-		att.add("description");
-		att.add("post_date");
-		att.add("post_time");
-		att.add("client_id");
-		att.add("banned");		
-		
-		
-		//TODO de vazut aici
-		String where = null;
-		if(postId != -1)
-			where = "post_id=" + postId;
-		
-		List<List<String> > entries = DatabaseOperationsImplementation.getInstance().getTableContent(table, att, where, null, null, null);
-				
-		for(int i = 0;i < entries.size(); i++){
-			
-			List<String> current = entries.get(i);
-			//Post entry = new Post(Integer.parseInt(current.get(0)),current.get(1),current.get(2));
-			Comment entry = new Comment();
-			
-			entry.setId(Integer.parseInt(current.get(0)));
-			entry.setDescription(current.get(1));
-			
-			
-			res.add(entry);
-			
-			
+		DatabaseOperations databaseOperations = null;
+
+		try {
+			databaseOperations = DatabaseOperationsImplementation.getInstance();
+
+			List<String> att = new ArrayList<String>();
+			att.add("post_comment.id");
+			att.add("description");
+			att.add("post_date");
+			att.add("post_time");
+			att.add("username");	
+
+			String where = "post_id=\'" + postId + "\' and client_id=client.id and post_comment.banned=0";
+			List<List<String> > entries = databaseOperations.getTableContent(table + ", client", att, where, null, null, null);
+
+			for(int i = 0;i < entries.size(); i++) {
+				List<String> current = entries.get(i);
+				Comment entry = new Comment();
+
+				entry.setId(Integer.parseInt(current.get(0)));
+				entry.setDescription(current.get(1));
+				entry.setClientUsername(current.get(4));
+
+				res.add(entry);
+			}
+		} catch (SQLException sqlException) {
+			System.out.println("An exception has occurred while handling database records: " + sqlException.getMessage());
+			if (Constants.DEBUG) {
+				sqlException.printStackTrace();
+			}
+		} finally {
+			databaseOperations.releaseResources();
 		}
-					
+		
 		return res;
 	}
-	
 }

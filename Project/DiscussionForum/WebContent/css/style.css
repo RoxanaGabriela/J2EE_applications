@@ -97,6 +97,62 @@ body {
 	margin-top: 100px;
 }
 
+#firstname_input {
+	margin-left: 25px;
+	position: absolute;
+	width: 300px;
+	height: 50px;
+	margin-top: 160px;
+}
+
+#lastname_input {
+	margin-left: 25px;
+	position: absolute;
+	width: 300px;
+	height: 50px;
+	margin-top: 220px;
+}
+
+#personalidentifier_input {
+	margin-left: 25px;
+	position: absolute;
+	width: 300px;
+	height: 50px;
+	margin-top: 280px;
+}
+
+#phonenumber_input {
+	margin-left: 25px;
+	position: absolute;
+	width: 300px;
+	height: 50px;
+	margin-top: 340px;
+}
+
+#email_input {
+	margin-left: 25px;
+	position: absolute;
+	width: 300px;
+	height: 50px;
+	margin-top: 400px;
+}
+
+#iban_input {
+	margin-left: 25px;
+	position: absolute;
+	width: 300px;
+	height: 50px;
+	margin-top: 460px;
+}
+
+#address_input {
+	margin-left: 80px;
+	position: absolute;
+	width: 300px;
+	height: 50px;
+	margin-top: 100px;
+}
+
 #field_inputleft {
 	float: left;
 	background: url(../images/user_interface/input_left.png) no-repeat;
@@ -143,6 +199,17 @@ body {
 	position: relative;
 	padding: 0;
 	margin-top: 160px;
+	margin-left: 25px;
+	width: 300px;
+	height: 40px;
+	border: 0;
+}
+
+#register{
+	float: left;
+	position: relative;
+	padding: 0;
+	margin-top: 580px;
 	margin-left: 25px;
 	width: 300px;
 	height: 40px;

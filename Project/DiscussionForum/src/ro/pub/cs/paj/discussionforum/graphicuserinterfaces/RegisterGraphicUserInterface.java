@@ -4,12 +4,11 @@ import java.io.PrintWriter;
 
 import ro.pub.cs.paj.discussionforum.util.Constants;
 
-public class LoginGraphicUserInterface {
-
-	public LoginGraphicUserInterface() {
+public class RegisterGraphicUserInterface {
+	public RegisterGraphicUserInterface() {
 	}
 
-	public static void displayLoginGraphicUserInterface(boolean isLoginError, PrintWriter printWriter) {
+	public static void displayLoginGraphicUserInterface(boolean isRegisterError, PrintWriter printWriter) {
 		StringBuilder content = new StringBuilder();
 		content.append(
 				"<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n");
@@ -52,11 +51,12 @@ public class LoginGraphicUserInterface {
 				"                        <input type=\"image\" src=\"./images/user_interface/signin.png\" id=\"submit2\" name=\""
 						+ Constants.SIGNIN.toLowerCase() + "\" value=\"" + Constants.SIGNIN + "\">\n");
 		content.append("                    </div>\n");
-		if (isLoginError) {
+		if (isRegisterError) {
 			content.append(
 					"                    <h3 style=\"color: red\">" + Constants.ERROR_USERNAME_PASSWORD + "</h3>\n");
 		}
 		
+		content.append("<input type=\"submit\" name=\"UserNoAccountButton\" value=\"UserNoAccount\"/>");
 		content.append("                </div>\n");
 		content.append("                <div id=\"wrapperbottom\"></div>\n");
 		content.append("            </div>\n");

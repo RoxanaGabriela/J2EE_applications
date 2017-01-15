@@ -1,6 +1,6 @@
-DROP DATABASE forumDatabase;
-CREATE DATABASE IF NOT EXISTS forumDatabase;
-USE forumDatabase;
+DROP DATABASE forumdatabase;
+CREATE DATABASE IF NOT EXISTS forumdatabase;
+USE forumdatabase;
 
 CREATE TABLE IF NOT EXISTS client (
 id INT(11) PRIMARY KEY AUTO_INCREMENT,
