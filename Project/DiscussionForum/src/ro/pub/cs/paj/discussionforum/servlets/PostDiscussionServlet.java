@@ -177,14 +177,15 @@ public class PostDiscussionServlet extends HttpServlet {
 						previousRecordsPerPage = String.valueOf(Constants.RECORDS_PER_PAGE_VALUES[0]);
 						currentRecordsPerPage = String.valueOf(Constants.RECORDS_PER_PAGE_VALUES[0]);
 						currentPage = String.valueOf(1);
-						loggedIn = false;
+						session.setAttribute("loggedIn", false);
+						session.removeAttribute("username");
 						RequestDispatcher dispatcher = null;
 						dispatcher = getServletContext()
 								.getRequestDispatcher("/" + Constants.POST_SERVLET_PAGE_CONTEXT);
 						if (dispatcher != null) {
 							dispatcher.forward(request, response);
 						}
-						session.invalidate();
+						//session.invalidate();
 						break;
 					}
 				}

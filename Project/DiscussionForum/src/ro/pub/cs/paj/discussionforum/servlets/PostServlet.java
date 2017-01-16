@@ -18,6 +18,8 @@ import javax.servlet.http.HttpSession;
 
 import ro.pub.cs.paj.discussionforum.businesslogic.ClientManager;
 import ro.pub.cs.paj.discussionforum.businesslogic.PostManager;
+import ro.pub.cs.paj.discussionforum.businesslogic.TopicManager;
+import ro.pub.cs.paj.discussionforum.businesslogic.TopicPostManager;
 import ro.pub.cs.paj.discussionforum.graphicuserinterfaces.PostGraphicUserInterface;
 import ro.pub.cs.paj.discussionforum.util.Constants;
 import ro.pub.cs.paj.discussionforum.util.Utilities;
@@ -29,10 +31,14 @@ public class PostServlet extends HttpServlet {
 	private static final long serialVersionUID = -1864122641544054598L;
 	private PostManager postManager;
 	private ClientManager clientManager;
+	private TopicManager topicManager;
+	private TopicPostManager topicPostManager;
+	
 	private List<Post> posts;
 	private String previousRecordsPerPage;
 	private String currentRecordsPerPage;
 	private String currentPage;
+	private List<String> topics;
 	
 	private boolean loggedIn;
 	private String username;
@@ -42,6 +48,8 @@ public class PostServlet extends HttpServlet {
 		super.init(config);
 		postManager = new PostManager();
 		clientManager = new ClientManager();
+		topicManager = new TopicManager();
+		topicPostManager = new TopicPostManager();
 
 		previousRecordsPerPage = String.valueOf(Constants.RECORDS_PER_PAGE_VALUES[0]);
 		currentRecordsPerPage = String.valueOf(Constants.RECORDS_PER_PAGE_VALUES[0]);
@@ -58,6 +66,7 @@ public class PostServlet extends HttpServlet {
 		doPost(request, response);
 	}
 
+	@SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
 		HttpSession session = request.getSession(true);
 		response.setContentType("text/html");
@@ -75,6 +84,11 @@ public class PostServlet extends HttpServlet {
 			}
 			if (session.getAttribute("loggedIn") != null) {
 				loggedIn = (boolean) session.getAttribute("loggedIn");
+			}
+			
+			topics = (List<String>) session.getAttribute(Constants.TOPIC);
+			if (topics == null) {
+				topics = new ArrayList<>();
 			}
 
 			Enumeration<String> parametersTopic = request.getParameterNames();
@@ -137,6 +151,22 @@ public class PostServlet extends HttpServlet {
 				}
 				
 				if (loggedIn) {
+					if (parameter.equals(Constants.INSERT_BUTTON_NAME.toLowerCase() + "_" + Constants.TOPIC + ".x")) {
+						String topic = request.getParameter(Constants.TOPIC.toLowerCase());
+						System.out.println(topics);
+						System.out.println(topic);
+						if (!topics.contains(topic)) {
+							topics.add(topic);
+						}
+					}
+					if (parameter.startsWith(Constants.DELETE_BUTTON_NAME.toLowerCase() + "_" + Constants.TOPIC + "_")
+							&& parameter.endsWith(".x")) {
+						String topic = parameter.substring(parameter.lastIndexOf("_") + 1, parameter.indexOf(".x"));
+						if (topics.contains(topic)) {
+							topics.remove(topic);
+						}
+					}
+					
 					if(parameter.startsWith(Constants.INSERT_BUTTON_NAME.toLowerCase()) &&
 							parameter.endsWith(".x")) {
 						if(newPostTitle != null && newPostDescription != null) {
@@ -162,10 +192,28 @@ public class PostServlet extends HttpServlet {
 
 							val.add("0");
 
-							postManager.create(val);
+							long post_id = postManager.create(val);
+							
+							for (String topic : topics) {
+								if (topicManager.getId(topic) != -1) {
+									val = new ArrayList<String>();
+									val.add(topic);
+									val.add("-");
+									long topic_id = topicManager.create(val);
+									
+									val = new ArrayList<String>();
+									val.add(topic_id + "");
+									val.add(post_id + "");
+									topicPostManager.create(val);
+									topics.clear();
+								}
+								
+							}
 							listChanged = true;
 						}
 					}
+					
+					session.setAttribute(Constants.TOPIC, topics);
 					
 					if (parameter.equals(Constants.SIGNOUT.toLowerCase() + ".x")) {
 						Enumeration<String> requestParameters = request.getParameterNames();
@@ -175,8 +223,9 @@ public class PostServlet extends HttpServlet {
 						previousRecordsPerPage = String.valueOf(Constants.RECORDS_PER_PAGE_VALUES[0]);
 						currentRecordsPerPage = String.valueOf(Constants.RECORDS_PER_PAGE_VALUES[0]);
 						currentPage = String.valueOf(1);
-						loggedIn = false;
-						session.invalidate();
+						session.setAttribute("loggedIn", false);
+						session.removeAttribute("username");
+						//session.invalidate();
 						break;
 					}
 				}
@@ -184,8 +233,7 @@ public class PostServlet extends HttpServlet {
 		
 			if (posts == null || listChanged)
 				posts = postManager.getElements();
-
-			PostGraphicUserInterface.displayPostGraphicUserInterface(username, posts, loggedIn,
+			PostGraphicUserInterface.displayPostGraphicUserInterface(username, posts, topics, loggedIn,
 					(currentRecordsPerPage != null) ? Integer.parseInt(currentRecordsPerPage)
 							: Constants.RECORDS_PER_PAGE_VALUES[0],
 							(currentPage != null && currentRecordsPerPage != null

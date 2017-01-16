@@ -153,7 +153,7 @@ public class PostDiscussionGraphicUserInterface {
 			content.append("													<td>&nbsp;</td>\n");
 			content.append("													<td style=\"text-align: left;\">Comment: </td>\n");
 			content.append("													<td>\n");
-			content.append("														<input type=\"text\" name=\"newComment\" id=\"url\" value=\"\" onclick=\"this.value = ''\">\n");
+			content.append("														<input type=\"text\" name=\"newComment\">\n");
 			content.append("													</td>\n");
 			content.append("												</tr>\n");		
 			content.append("												<tr>\n");

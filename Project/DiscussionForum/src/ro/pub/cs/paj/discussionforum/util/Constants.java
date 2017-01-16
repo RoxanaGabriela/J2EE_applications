@@ -38,7 +38,7 @@ public class Constants
 	public final static String ADMINISTRATOR_POSTDISCUSSION_FORM = "AdministratorPostDiscussionForm";
 	
 	public final static String HOME = "Home";
-	
+	public final static String TOPIC = "Topic";
 	public final static String SIGNIN = "Sign in";
 	public final static String SIGNUP = "Sign up";
 	public final static String SIGNOUT = "Sign out";

@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import ro.pub.cs.paj.discussionforum.businesslogic.PostManager;
-import ro.pub.cs.paj.discussionforum.db.Comment;
 import ro.pub.cs.paj.discussionforum.db.Post;
 import ro.pub.cs.paj.discussionforum.util.Constants;
 import ro.pub.cs.paj.discussionforum.util.Utilities;
@@ -122,13 +121,14 @@ public class AdministratorPostServlet extends HttpServlet {
 					currentRecordsPerPage = String.valueOf(Constants.RECORDS_PER_PAGE_VALUES[0]);
 					currentPage = String.valueOf(1);
 					session.setAttribute("loggedIn", false);
+					session.removeAttribute("username");
 					RequestDispatcher dispatcher = null;
 					dispatcher = getServletContext()
 							.getRequestDispatcher("/" + Constants.POST_SERVLET_PAGE_CONTEXT);
 					if (dispatcher != null) {
 						dispatcher.forward(request, response);
 					}
-					session.invalidate();
+					//session.invalidate();
 					break;
 				}
 			}

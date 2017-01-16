@@ -10,7 +10,7 @@ import ro.pub.cs.paj.discussionforum.util.Utilities;
 public class PostGraphicUserInterface {
 	public PostGraphicUserInterface() {}
 
-	public static void displayPostGraphicUserInterface(String username, List<Post> posts,
+	public static void displayPostGraphicUserInterface(String username, List<Post> posts, List<String> topics,
 			boolean loggedIn, int currentRecordsPerPage, int currentPage, PrintWriter printWriter) {
 		StringBuilder content = new StringBuilder();
 		content.append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n");		
@@ -125,17 +125,39 @@ public class PostGraphicUserInterface {
 			content.append("										<table>\n");
 			content.append("											<tbody>\n");
 			content.append("												<tr>\n");
+			content.append("													<td>" + Constants.TOPIC + "</td>\n");
+			content.append("													<td>\n");
+			content.append("														<input type=\"text\" name=\"" + Constants.TOPIC.toLowerCase() + "\" />\n");
+			content.append("													</td>\n");
+			content.append("													<td>\n");
+			content.append("													<input type=\"image\" name=\"" + Constants.INSERT_BUTTON_NAME.toLowerCase() + "_" + Constants.TOPIC + "\" value=\"" + Constants.INSERT_BUTTON_NAME + "\" src=\"./images/user_interface/insert.png\"/>\n");
+			content.append("													</td>\n");
+			content.append("												<tr>\n");
+			content.append("													<td colspan=\"3\">\n");
+			content.append("														<table>\n");
+			for (String topic : topics) {
+				content.append("														<tr>\n");
+				content.append("															<td style=\"background: #ebebeb; text-align: left;\">" + topic + "</td>\n");
+				content.append("															<td>\n");
+				content.append("																<input type=\"image\" name=\"" + Constants.DELETE_BUTTON_NAME.toLowerCase() + "_" + Constants.TOPIC + "_" + topic + "\" src=\"./images/user_interface/delete.png\" width=\"16\" height=\"16\" />\n");
+				content.append("															</td>\n");
+				content.append("														</tr>\n");
+			}
+			content.append("														</table>\n");
+			content.append("													</td>\n");
+			content.append("												</tr>\n");
+			content.append("												<tr>\n");
 			content.append("													<td>&nbsp;</td>\n");
 			content.append("													<td style=\"text-align: left;\">Title: </td>\n");
 			content.append("													<td>\n");
-			content.append("														<input type=\"text\" name=\"newPostTitle\" id=\"url\" value=\"\" onclick=\"this.value = ''\">\n");
+			content.append("														<input type=\"text\" name=\"newPostTitle\" >\n");
 			content.append("													</td>\n");
 			content.append("												</tr>\n");		
 			content.append("												<tr>\n");
 			content.append("													<td>&nbsp;</td>\n");
 			content.append("													<td style=\"text-align: left;\">Description: </td>\n");
 			content.append("													<td>\n");
-			content.append("														<input type=\"text\" name=\"newPostDescription\" id=\"url\" value=\"\" onclick=\"this.value = ''\">\n");
+			content.append("														<input type=\"text\" name=\"newPostDescription\">\n");
 			content.append("													</td>\n");
 			content.append("												</tr>\n");
 			content.append("												<tr>\n");
