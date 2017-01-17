@@ -70,7 +70,7 @@ public class PostServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
 		HttpSession session = request.getSession(true);
 		response.setContentType("text/html");
-
+		
 		try (PrintWriter printWriter = new PrintWriter(response.getWriter())) {
 			boolean listChanged = false;
 			loggedIn = false;
@@ -121,6 +121,11 @@ public class PostServlet extends HttpServlet {
 						dispatcher.forward(request, response);
 					}
 				}
+				
+				if (parameter.startsWith(Constants.HOME.toLowerCase()) &&
+						parameter.endsWith(".x")) {
+					posts = null;
+				}
 
 				if (!loggedIn) {
 					if (parameter.equals(Constants.SIGNIN.toLowerCase() + ".x")) {
@@ -133,6 +138,7 @@ public class PostServlet extends HttpServlet {
 						if (dispatcher != null) {
 							dispatcher.forward(request, response);
 						}
+						posts = null;
 						break;
 					}
 					
@@ -146,6 +152,7 @@ public class PostServlet extends HttpServlet {
 						if (dispatcher != null) {
 							dispatcher.forward(request, response);
 						}
+						posts = null;
 						break;
 					}
 				}
@@ -153,8 +160,6 @@ public class PostServlet extends HttpServlet {
 				if (loggedIn) {
 					if (parameter.equals(Constants.INSERT_BUTTON_NAME.toLowerCase() + "_" + Constants.TOPIC + ".x")) {
 						String topic = request.getParameter(Constants.TOPIC.toLowerCase());
-						System.out.println(topics);
-						System.out.println(topic);
 						if (!topics.contains(topic)) {
 							topics.add(topic);
 						}
@@ -195,7 +200,7 @@ public class PostServlet extends HttpServlet {
 							long post_id = postManager.create(val);
 							
 							for (String topic : topics) {
-								if (topicManager.getId(topic) != -1) {
+								if (topicManager.getId(topic) == -1) {
 									val = new ArrayList<String>();
 									val.add(topic);
 									val.add("-");
@@ -205,11 +210,10 @@ public class PostServlet extends HttpServlet {
 									val.add(topic_id + "");
 									val.add(post_id + "");
 									topicPostManager.create(val);
-									topics.clear();
 								}
 								
 							}
-							listChanged = true;
+							topics.clear();
 						}
 					}
 					
@@ -233,6 +237,7 @@ public class PostServlet extends HttpServlet {
 		
 			if (posts == null || listChanged)
 				posts = postManager.getElements();
+
 			PostGraphicUserInterface.displayPostGraphicUserInterface(username, posts, topics, loggedIn,
 					(currentRecordsPerPage != null) ? Integer.parseInt(currentRecordsPerPage)
 							: Constants.RECORDS_PER_PAGE_VALUES[0],

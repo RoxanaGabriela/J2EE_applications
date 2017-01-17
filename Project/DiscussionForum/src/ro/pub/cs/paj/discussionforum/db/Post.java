@@ -6,7 +6,7 @@ public class Post implements Serializable {
 
 	public Post(){}
 	
-	public Post(int id, String title, String description, String date, String time, String clientUsername, int banned) {
+	public Post(int id, String title, String description, String date, String time, String clientUsername, int banned, int commentsNo) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -15,6 +15,7 @@ public class Post implements Serializable {
 		this.time = time;
 		this.clientUsername = clientUsername;
 		this.banned = banned;
+		this.commentsNo = commentsNo;
 	}
 	
 	private static final long serialVersionUID = 1L;
@@ -70,6 +71,14 @@ public class Post implements Serializable {
 		this.topics = topics;
 	}
 	
+	public int getCommentsNo() {
+		return commentsNo;
+	}
+	
+	public void setCommentsNo(int commentsNo) {
+		this.commentsNo = commentsNo;
+	}
+	
 	private int id;
 	private String title;
 	private String description;	 
@@ -78,4 +87,5 @@ public class Post implements Serializable {
 	private String clientUsername;
 	private int banned;
 	private String topics;
+	private int commentsNo;
 }

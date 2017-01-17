@@ -63,9 +63,7 @@ public class AdministratorPostDiscussionServlet extends HttpServlet {
 		HttpSession session = request.getSession(true);
 		response.setContentType("text/html");
 
-		try (PrintWriter printWriter = new PrintWriter(response.getWriter())) {
-			boolean listChanged = false;
-			
+		try (PrintWriter printWriter = new PrintWriter(response.getWriter())) {			
 			username = null;
 
 			if (session.getAttribute("username") != null) {
@@ -74,7 +72,8 @@ public class AdministratorPostDiscussionServlet extends HttpServlet {
 			
 			postId = (String)session.getAttribute("postId");
 			post = postManager.getPostDetails(postId);
-
+			comments = postDiscussionManager.getAdminComments(Integer.parseInt(postId));
+			
 			Enumeration<String> parameters = request.getParameterNames();
 			while (parameters.hasMoreElements()) {
 				String parameter = (String) parameters.nextElement();
@@ -108,7 +107,6 @@ public class AdministratorPostDiscussionServlet extends HttpServlet {
 						values.add("1");
 						
 						postDiscussionManager.update(attributes, values, Integer.parseInt(id));
-						listChanged = true;
 				}
 				
 				if(parameter.startsWith(Constants.DELETE_BUTTON_NAME.toLowerCase()) &&
@@ -121,7 +119,6 @@ public class AdministratorPostDiscussionServlet extends HttpServlet {
 						values.add("-1");
 						
 						postDiscussionManager.update(attributes, values, Integer.parseInt(id));
-						listChanged = true;
 				}
 				
 				if (parameter.equals(Constants.SIGNOUT.toLowerCase() + ".x")) {
@@ -145,8 +142,6 @@ public class AdministratorPostDiscussionServlet extends HttpServlet {
 				}
 			}
 			
-			if (comments == null || listChanged)
-				comments = postDiscussionManager.getAdminComments(Integer.parseInt(postId));
 			AdministratorPostDiscussionGraphicUserInterface.displayAdministratorPostDiscussionGraphicUserInterface(
 					username, post, comments,
 					(currentRecordsPerPage != null) ? Integer.parseInt(currentRecordsPerPage)

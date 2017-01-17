@@ -74,6 +74,11 @@ public class AdministratorPostServlet extends HttpServlet {
 					currentPage = request.getParameter(parameter);
 				}
 				
+				if (parameter.startsWith(Constants.HOME.toLowerCase()) &&
+						parameter.endsWith(".x")) {
+					posts = null;
+				}
+				
 				if (parameter.startsWith(Constants.VIEW_BUTTON_NAME.toLowerCase()) &&
 						parameter.endsWith(".x")) {
 					String id = parameter.substring(parameter.lastIndexOf("_") + 1, parameter.indexOf(".x"));
@@ -135,6 +140,7 @@ public class AdministratorPostServlet extends HttpServlet {
 			
 			if (posts == null || listChanged)
 				posts = postManager.getAdminPosts();
+
 			AdministratorPostGraphicUserInterface.displayAdministratorPostGraphicUserInterface(username, posts,
 					(currentRecordsPerPage != null) ? Integer.parseInt(currentRecordsPerPage)
 							: Constants.RECORDS_PER_PAGE_VALUES[0],

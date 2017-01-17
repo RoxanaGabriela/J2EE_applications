@@ -69,7 +69,6 @@ public class PostDiscussionServlet extends HttpServlet {
 		response.setContentType("text/html");
 
 		try (PrintWriter printWriter = new PrintWriter(response.getWriter())) {
-			boolean listChanged = false;
 			String newComment = null;
 			
 			loggedIn = false;
@@ -85,6 +84,7 @@ public class PostDiscussionServlet extends HttpServlet {
 			
 			postId = (String)session.getAttribute("postId");
 			post = postManager.getPostDetails(postId);
+			comments = postDiscussionManager.getElements(Integer.parseInt(postId));
 
 			Enumeration<String> parameters = request.getParameterNames();
 			while (parameters.hasMoreElements()) {
@@ -124,7 +124,6 @@ public class PostDiscussionServlet extends HttpServlet {
 						val.add("0");
 
 						postDiscussionManager.create(val);
-						listChanged = true;
 					}
 				}
 				
@@ -191,8 +190,6 @@ public class PostDiscussionServlet extends HttpServlet {
 				}
 			}
 
-			if (comments == null || listChanged)
-				comments = postDiscussionManager.getElements(Integer.parseInt(postId));
 			PostDiscussionGraphicUserInterface.displayPostDiscussionGraphicUserInterface(username, loggedIn,
 					post, comments,
 					(currentRecordsPerPage != null) ? Integer.parseInt(currentRecordsPerPage)

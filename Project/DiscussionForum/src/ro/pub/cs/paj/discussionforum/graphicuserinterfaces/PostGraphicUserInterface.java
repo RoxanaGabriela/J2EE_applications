@@ -95,6 +95,9 @@ public class PostGraphicUserInterface {
 			content.append("													<tr>\n");
 			content.append("														<td style=\"text-align: left;\">Topics: " + posts.get(index).getTopics() + "</td>\n");
 			content.append("													</tr>\n");
+			content.append("													<tr>");
+			content.append("														<td style-\"text: left;\">Comments(" + posts.get(index).getCommentsNo() + ")</td>\n");
+			content.append("													</tr>");
 			content.append("													<tr>\n");
 			content.append("														<td>\n");
 			content.append("															<input type=\"image\" height=32 width=32 name=\"" + Constants.VIEW_BUTTON_NAME.toLowerCase() + "_" + posts.get(index).getId() + "\" value=\"" + Constants.VIEW_BUTTON_NAME + "\" src=\"./images/user_interface/right-arrow-icon.png\" />\n");

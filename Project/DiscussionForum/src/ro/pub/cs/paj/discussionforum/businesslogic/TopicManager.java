@@ -26,7 +26,7 @@ public class TopicManager extends EntityManager {
 			String whereClause = "title=\'" + title + "\'";
 			List<List<String> > entries = databaseOperations.getTableContent(table, att, whereClause, null, null, null);		
 
-			if (entries != null && entries.get(0) != null && entries.get(0).get(0) != null) {
+			if (entries != null && !entries.isEmpty()) {
 				id = Integer.parseInt(entries.get(0).get(0));
 			}
 		} catch (SQLException sqlException) {

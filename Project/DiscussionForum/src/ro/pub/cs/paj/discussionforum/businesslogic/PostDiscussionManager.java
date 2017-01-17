@@ -69,7 +69,8 @@ public class PostDiscussionManager extends EntityManager{
 			att.add("description");
 			att.add("post_date");
 			att.add("post_time");
-			att.add("username");	
+			att.add("username");
+			att.add("banned");
 
 			String where = "post_id=\'" + postId + "\' and client_id=client.id";
 			List<List<String> > entries = databaseOperations.getTableContent(table + ", client", att, where, null, null, null);
@@ -83,6 +84,7 @@ public class PostDiscussionManager extends EntityManager{
 				entry.setDate(current.get(2));
 				entry.setTime(current.get(3));
 				entry.setClientUsername(current.get(4));
+				entry.setBanned(Integer.parseInt(current.get(5)));
 
 				res.add(entry);
 			}

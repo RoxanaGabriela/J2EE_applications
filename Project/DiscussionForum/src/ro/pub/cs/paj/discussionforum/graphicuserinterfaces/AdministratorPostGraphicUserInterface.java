@@ -81,11 +81,13 @@ public class AdministratorPostGraphicUserInterface {
 			content.append("													<tr>\n");
 			content.append("														<td style=\"text-align: left;\">Description: " + posts.get(index).getDescription() + "</td>\n");
 			content.append("													</tr>\n");
-			content.append("													<tr>\n");
-			content.append("														<td>\n");
-			content.append("															<input type=\"image\" height=32 width=32 name=\"" + Constants.VIEW_BUTTON_NAME.toLowerCase() + "_" + posts.get(index).getId() + "\" value=\"" + Constants.VIEW_BUTTON_NAME + "\" src=\"./images/user_interface/right-arrow-icon.png\" />\n");
-			content.append("														</td>\n");
-			content.append("													</tr>\n");
+			if (posts.get(index).isBanned() != 0) {
+				content.append("												<tr>\n");
+				content.append("													<td>\n");
+				content.append("														<input type=\"image\" height=32 width=32 name=\"" + Constants.VIEW_BUTTON_NAME.toLowerCase() + "_" + posts.get(index).getId() + "\" value=\"" + Constants.VIEW_BUTTON_NAME + "\" src=\"./images/user_interface/right-arrow-icon.png\" />\n");
+				content.append("													</td>\n");
+				content.append("												</tr>\n");
+			}
 			content.append("												</tbody>\n");
 			content.append("											</table>\n");
 			content.append("										</td>\n");
